@@ -42,17 +42,21 @@ export default function Home() {
           transition={{ duration: 0.8 }}
           className="text-center lg:text-left max-w-2xl"
         >
-          <div className="text-center lg:text-left">
-            <SparklesText
-              text="Building Tomorrow's"
-              className="text-4xl tracking-tight text-white sm:text-6xl mb-2"
-              colors={{ first: "#0ea5e9", second: "#0ea5e9" }}
-            />
-            <SparklesText
-              text="Infrastructure"
-              className="text-4xl tracking-tight text-primary sm:text-6xl"
-              colors={{ first: "#ffffff", second: "#0ea5e9" }}
-            />
+          <div className="text-center lg:text-left max-w-full overflow-hidden">
+            <div className="text-3xl sm:text-4xl lg:text-6xl space-y-1 sm:space-y-2">
+              <SparklesText
+                text="Building Tomorrow's"
+                className="tracking-tight text-white inline-block"
+                colors={{ first: "#0ea5e9", second: "#0ea5e9" }}
+                sparklesCount={6}
+              />
+              <SparklesText
+                text="Infrastructure"
+                className="tracking-tight text-primary inline-block"
+                colors={{ first: "#ffffff", second: "#0ea5e9" }}
+                sparklesCount={6}
+              />
+            </div>
           </div>
           <p className="mt-6 text-lg leading-8 text-gray-300">
             Futonix is a leading construction and development company, delivering excellence in commercial and industrial projects through innovation and expertise.
