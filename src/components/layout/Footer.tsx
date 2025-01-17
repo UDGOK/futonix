@@ -8,6 +8,7 @@ const navigation = {
     { name: 'Services', href: '/services' },
     { name: 'Projects', href: '/projects' },
     { name: 'Contact', href: '/contact' },
+    { name: 'Request Quote', href: '/quote-request' },
   ],
   social: [
     {
