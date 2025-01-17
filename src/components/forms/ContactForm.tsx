@@ -18,22 +18,39 @@ export default function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    setIsSubmitting(false);
-    setSubmitStatus('success');
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      company: '',
-      message: '',
-    });
 
-    // Reset success message after 3 seconds
-    setTimeout(() => setSubmitStatus('idle'), 3000);
+    try {
+      const response = await fetch('/api/send-quote-request', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          to: 'yasir@futonix.com',
+          subject: `Contact Form Message from ${formData.name} - ${formData.company}`,
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to send email');
+      
+      setSubmitStatus('success');
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        company: '',
+        message: '',
+      });
+
+      // Reset success message after 3 seconds
+      setTimeout(() => setSubmitStatus('idle'), 3000);
+    } catch {
+      setSubmitStatus('error');
+      setTimeout(() => setSubmitStatus('idle'), 3000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -136,6 +153,17 @@ export default function ContactForm() {
         >
           <p className="text-sm text-green-400">
             Thank you for your message. We&apos;ll get back to you soon!
+          </p>
+        </motion.div>
+      )}
+      {submitStatus === 'error' && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="rounded-md bg-red-500/10 p-4"
+        >
+          <p className="text-sm text-red-400">
+            There was an error sending your message. Please try again or contact us directly.
           </p>
         </motion.div>
       )}
