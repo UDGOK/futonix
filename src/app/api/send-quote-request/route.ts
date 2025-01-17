@@ -1,0 +1,92 @@
+import { NextResponse } from 'next/server';
+import nodemailer from 'nodemailer';
+
+export async function POST(request: Request) {
+  try {
+    const data = await request.json();
+    
+    // Create a transporter using SMTP
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT),
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASSWORD,
+      },
+    });
+
+    // Format the email content in a table-like structure
+    const emailContent = `
+      New Quote Request from ${data.name}
+
+      Contact Information
+      ==================
+      Name: ${data.name}
+      Email: ${data.email}
+      Phone: ${data.phone}
+      Company: ${data.company}
+
+      Project Details
+      ==============
+      Project Type: ${data.projectType}
+      Project Size: ${data.projectSize} sq ft
+      Timeline: ${data.timeline}
+      Budget Range: ${data.budget}
+      Location: ${data.location}
+
+      Requirements and Specifications
+      ============================
+      ${data.requirements}
+
+      This request was sent from the Futonix website quote request form.
+    `;
+
+    // Send the email
+    await transporter.sendMail({
+      from: process.env.SMTP_USER,
+      to: process.env.SMTP_TO_EMAIL,
+      subject: `Quote Request: ${data.projectType} Project - ${data.company}`,
+      text: emailContent,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #333;">New Quote Request from ${data.name}</h2>
+          
+          <div style="margin: 20px 0; background: #f5f5f5; padding: 20px; border-radius: 5px;">
+            <h3 style="color: #444;">Contact Information</h3>
+            <p><strong>Name:</strong> ${data.name}</p>
+            <p><strong>Email:</strong> ${data.email}</p>
+            <p><strong>Phone:</strong> ${data.phone}</p>
+            <p><strong>Company:</strong> ${data.company}</p>
+          </div>
+
+          <div style="margin: 20px 0; background: #f5f5f5; padding: 20px; border-radius: 5px;">
+            <h3 style="color: #444;">Project Details</h3>
+            <p><strong>Project Type:</strong> ${data.projectType}</p>
+            <p><strong>Project Size:</strong> ${data.projectSize} sq ft</p>
+            <p><strong>Timeline:</strong> ${data.timeline}</p>
+            <p><strong>Budget Range:</strong> ${data.budget}</p>
+            <p><strong>Location:</strong> ${data.location}</p>
+          </div>
+
+          <div style="margin: 20px 0; background: #f5f5f5; padding: 20px; border-radius: 5px;">
+            <h3 style="color: #444;">Requirements and Specifications</h3>
+            <p style="white-space: pre-wrap;">${data.requirements}</p>
+          </div>
+
+          <p style="color: #666; font-size: 12px; margin-top: 30px;">
+            This request was sent from the Futonix website quote request form.
+          </p>
+        </div>
+      `,
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Error sending email:', error);
+    return NextResponse.json(
+      { error: 'Failed to send email' },
+      { status: 500 }
+    );
+  }
+}
