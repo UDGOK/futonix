@@ -16,39 +16,41 @@ export async function POST(request: Request) {
       },
     });
 
-    // Format the email content in a table-like structure
-    const emailContent = `
-      New Quote Request from ${data.name}
+    // Determine if this is a quote request or contact form submission
+    const isQuoteRequest = 'projectType' in data;
 
-      Contact Information
-      ==================
-      Name: ${data.name}
-      Email: ${data.email}
-      Phone: ${data.phone}
-      Company: ${data.company}
+    // Format the email content based on the form type
+    let emailContent;
+    let htmlContent;
+    let subject;
 
-      Project Details
-      ==============
-      Project Type: ${data.projectType}
-      Project Size: ${data.projectSize} sq ft
-      Timeline: ${data.timeline}
-      Budget Range: ${data.budget}
-      Location: ${data.location}
+    if (isQuoteRequest) {
+      emailContent = `
+        New Quote Request from ${data.name}
 
-      Requirements and Specifications
-      ============================
-      ${data.requirements}
+        Contact Information
+        ==================
+        Name: ${data.name}
+        Email: ${data.email}
+        Phone: ${data.phone}
+        Company: ${data.company}
 
-      This request was sent from the Futonix website quote request form.
-    `;
+        Project Details
+        ==============
+        Project Type: ${data.projectType}
+        Project Size: ${data.projectSize} sq ft
+        Timeline: ${data.timeline}
+        Budget Range: ${data.budget}
+        Location: ${data.location}
 
-    // Send the email
-    await transporter.sendMail({
-      from: process.env.SMTP_USER,
-      to: process.env.SMTP_TO_EMAIL,
-      subject: `Quote Request: ${data.projectType} Project - ${data.company}`,
-      text: emailContent,
-      html: `
+        Requirements and Specifications
+        ============================
+        ${data.requirements}
+
+        This request was sent from the Futonix website quote request form.
+      `;
+
+      htmlContent = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #333;">New Quote Request from ${data.name}</h2>
           
@@ -78,7 +80,60 @@ export async function POST(request: Request) {
             This request was sent from the Futonix website quote request form.
           </p>
         </div>
-      `,
+      `;
+
+      subject = `Quote Request: ${data.projectType} Project - ${data.company}`;
+    } else {
+      emailContent = `
+        New Contact Form Message from ${data.name}
+
+        Contact Information
+        ==================
+        Name: ${data.name}
+        Email: ${data.email}
+        Phone: ${data.phone}
+        Company: ${data.company}
+
+        Message
+        =======
+        ${data.message}
+
+        This message was sent from the Futonix website contact form.
+      `;
+
+      htmlContent = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #333;">New Contact Form Message from ${data.name}</h2>
+          
+          <div style="margin: 20px 0; background: #f5f5f5; padding: 20px; border-radius: 5px;">
+            <h3 style="color: #444;">Contact Information</h3>
+            <p><strong>Name:</strong> ${data.name}</p>
+            <p><strong>Email:</strong> ${data.email}</p>
+            <p><strong>Phone:</strong> ${data.phone}</p>
+            <p><strong>Company:</strong> ${data.company}</p>
+          </div>
+
+          <div style="margin: 20px 0; background: #f5f5f5; padding: 20px; border-radius: 5px;">
+            <h3 style="color: #444;">Message</h3>
+            <p style="white-space: pre-wrap;">${data.message}</p>
+          </div>
+
+          <p style="color: #666; font-size: 12px; margin-top: 30px;">
+            This message was sent from the Futonix website contact form.
+          </p>
+        </div>
+      `;
+
+      subject = `Contact Form Message from ${data.name} - ${data.company}`;
+    }
+
+    // Send the email
+    await transporter.sendMail({
+      from: process.env.SMTP_USER,
+      to: process.env.SMTP_TO_EMAIL,
+      subject: subject,
+      text: emailContent,
+      html: htmlContent,
     });
 
     return NextResponse.json({ success: true });

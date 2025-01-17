@@ -164,9 +164,11 @@ export function Header1() {
                     </Link>
                 </div>
                 <div className="flex justify-end w-full gap-4">
-                    <Button variant="ghost" className="hidden md:inline">
-                        Request Quote
-                    </Button>
+                    <Link href="/quote-request" legacyBehavior passHref>
+                        <Button variant="ghost" className="hidden md:inline">
+                            Request Quote
+                        </Button>
+                    </Link>
                     <div className="border-r hidden md:inline"></div>
                     <Link href="/contact" legacyBehavior passHref>
                         <Button variant="outline">Contact Us</Button>
