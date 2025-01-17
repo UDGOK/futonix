@@ -12,28 +12,12 @@ import {
 
 const offices = [
   {
-    city: 'Chicago',
-    address: '123 W Madison St, Suite 1500',
-    state: 'IL',
-    zip: '60602',
-    phone: '+1 (312) 555-0123',
-    email: 'chicago@futonix.com',
-  },
-  {
-    city: 'Detroit',
-    address: '456 Woodward Ave, Suite 800',
-    state: 'MI',
-    zip: '48226',
-    phone: '+1 (313) 555-0123',
-    email: 'detroit@futonix.com',
-  },
-  {
-    city: 'Minneapolis',
-    address: '789 Nicollet Mall, Suite 1200',
-    state: 'MN',
-    zip: '55402',
-    phone: '+1 (612) 555-0123',
-    email: 'minneapolis@futonix.com',
+    city: 'Tulsa',
+    address: '7739 E. 38th Street',
+    state: 'OK',
+    zip: '74145',
+    phone: '877-388-6649',
+    email: 'invoices@futonix.com',
   },
 ];
 
@@ -139,13 +123,13 @@ export default function Contact() {
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <a
-                  href="tel:+13125550123"
+                  href="tel:8773886649"
                   className="rounded-md bg-blue-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
                 >
                   Call Us Now
                 </a>
                 <a
-                  href="mailto:info@futonix.com"
+                  href="mailto:invoices@futonix.com"
                   className="text-sm font-semibold leading-6 text-white hover:text-blue-400"
                 >
                   Email Us <span aria-hidden="true">→</span>

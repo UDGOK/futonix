@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRightIcon, BuildingOffice2Icon, TruckIcon, WrenchScrewdriverIcon } from '@heroicons/react/24/outline';
 import { AuroraBackground } from '@/components/ui/aurora-background';
+import { SparklesText } from '@/components/ui/sparkles-text';
 
 const services = [
   {
@@ -41,10 +42,18 @@ export default function Home() {
           transition={{ duration: 0.8 }}
           className="text-center lg:text-left max-w-2xl"
         >
-          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-            Building Tomorrow&apos;s
-            <span className="text-primary"> Infrastructure</span>
-          </h1>
+          <div className="text-center lg:text-left">
+            <SparklesText
+              text="Building Tomorrow's"
+              className="text-4xl tracking-tight text-white sm:text-6xl mb-2"
+              colors={{ first: "#0ea5e9", second: "#0ea5e9" }}
+            />
+            <SparklesText
+              text="Infrastructure"
+              className="text-4xl tracking-tight text-primary sm:text-6xl"
+              colors={{ first: "#ffffff", second: "#0ea5e9" }}
+            />
+          </div>
           <p className="mt-6 text-lg leading-8 text-gray-300">
             Futonix is a leading construction and development company, delivering excellence in commercial and industrial projects through innovation and expertise.
           </p>
