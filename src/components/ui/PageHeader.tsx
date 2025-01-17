@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 interface PageHeaderProps {
   title: string;
@@ -12,10 +13,13 @@ export default function PageHeader({ title, subtitle, backgroundImage = '/constr
   return (
     <div className="relative isolate overflow-hidden py-24 sm:py-32">
       <div className="absolute inset-0">
-        <img
+        <Image
           src={backgroundImage}
           alt=""
-          className="h-full w-full object-cover"
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
         />
         <div className="absolute inset-0 hero-gradient" />
       </div>

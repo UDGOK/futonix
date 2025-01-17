@@ -54,7 +54,7 @@ export default function Contact() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
               >
-                <h2 className="text-3xl font-bold tracking-tight text-white">Let's Connect</h2>
+                <h2 className="text-3xl font-bold tracking-tight text-white">Let&apos;s Connect</h2>
                 <p className="mt-6 text-lg leading-8 text-gray-300">
                   Ready to start your next project? Fill out the form below and one of our experts will get back to you within 24 hours.
                 </p>

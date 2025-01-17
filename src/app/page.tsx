@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRightIcon, BuildingOffice2Icon, TruckIcon, WrenchScrewdriverIcon } from '@heroicons/react/24/outline';
@@ -43,7 +42,7 @@ export default function Home() {
           className="text-center lg:text-left max-w-2xl"
         >
           <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-            Building Tomorrow's
+            Building Tomorrow&apos;s
             <span className="text-primary"> Infrastructure</span>
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-300">

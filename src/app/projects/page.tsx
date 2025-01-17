@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import PageHeader from '@/components/ui/PageHeader';
 
@@ -142,10 +143,12 @@ export default function Projects() {
                 className="bg-gray-900 rounded-2xl overflow-hidden"
               >
                 <div className="aspect-[4/3] relative">
-                  <img
+                  <Image
                     src={project.image}
                     alt={project.name}
-                    className="h-full w-full object-cover"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute bottom-4 left-4">

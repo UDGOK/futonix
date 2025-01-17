@@ -55,7 +55,7 @@ export default function QuoteRequestForm() {
 
       // Reset success message after 3 seconds
       setTimeout(() => setSubmitStatus('idle'), 3000);
-    } catch (error) {
+    } catch {
       setSubmitStatus('error');
       setTimeout(() => setSubmitStatus('idle'), 3000);
     } finally {
@@ -271,7 +271,7 @@ export default function QuoteRequestForm() {
           className="rounded-md bg-green-500/10 p-4"
         >
           <p className="text-sm text-green-400">
-            Thank you for your quote request. We'll review your project details and get back to you soon!
+            Thank you for your quote request. We&apos;ll review your project details and get back to you soon!
           </p>
         </motion.div>
       )}

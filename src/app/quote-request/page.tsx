@@ -14,7 +14,7 @@ export default function QuoteRequest() {
                 Request a Quote
               </h1>
               <p className="mt-6 text-lg leading-8 text-gray-300">
-                Tell us about your project and we'll help bring your vision to life. Fill out the form below and our team will get back to you with a detailed quote.
+                Tell us about your project and we&apos;ll help bring your vision to life. Fill out the form below and our team will get back to you with a detailed quote.
               </p>
             </div>
             <div className="mt-16">

@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import PageHeader from '@/components/ui/PageHeader';
 import {
   BuildingOffice2Icon,
@@ -113,10 +114,12 @@ export default function Services() {
                 </div>
                 <div className="relative lg:mt-0 mt-8">
                   <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-gray-900">
-                    <img
+                    <Image
                       src={`/service-${index + 1}.jpg`}
                       alt={service.name}
-                      className="h-full w-full object-cover"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
                     />
                   </div>
                 </div>

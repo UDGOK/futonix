@@ -135,7 +135,7 @@ export default function ContactForm() {
           className="rounded-md bg-green-500/10 p-4"
         >
           <p className="text-sm text-green-400">
-            Thank you for your message. We'll get back to you soon!
+            Thank you for your message. We&apos;ll get back to you soon!
           </p>
         </motion.div>
       )}
