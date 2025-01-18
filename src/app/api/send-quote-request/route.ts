@@ -5,16 +5,26 @@ export async function POST(request: Request) {
   try {
     const data = await request.json();
     
+    // Validate environment variables
+    if (!process.env.SMTP_HOST || !process.env.SMTP_PORT ||
+        !process.env.SMTP_USER || !process.env.SMTP_PASSWORD ||
+        !process.env.SMTP_TO_EMAIL) {
+      throw new Error('Missing required SMTP configuration');
+    }
+
     // Create a transporter using SMTP
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT),
-      secure: false, // true for 465, false for other ports
+      secure: false,
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASSWORD,
       },
     });
+
+    // Verify SMTP connection
+    await transporter.verify();
 
     // Determine if this is a quote request or contact form submission
     const isQuoteRequest = 'projectType' in data;
