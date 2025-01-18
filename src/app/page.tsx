@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRightIcon, BuildingOffice2Icon, TruckIcon, WrenchScrewdriverIcon } from '@heroicons/react/24/outline';
+import { ArrowRightIcon, BuildingOffice2Icon, CpuChipIcon, WrenchScrewdriverIcon } from '@heroicons/react/24/outline';
 import { AuroraBackground } from '@/components/ui/aurora-background';
 import { HighlighterDemo } from '@/components/demo/highlighter-demo';
+
 const services = [
   {
     name: 'Construction Management',
@@ -14,7 +15,7 @@ const services = [
   {
     name: 'Industrial Solutions',
     description: 'Specialized solutions for manufacturing, warehousing, and industrial facilities.',
-    icon: TruckIcon,
+    icon: CpuChipIcon,
   },
   {
     name: 'Maintenance Services',
@@ -82,22 +83,33 @@ export default function Home() {
                 <motion.div
                   key={service.name}
                   whileHover={{ scale: 1.05 }}
-                  className="flex flex-col bg-black/50 p-8 rounded-2xl border border-gray-800"
+                  className="group relative"
                 >
-                  <dt className="text-base font-semibold leading-7 text-white">
-                    <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-                      <service.icon className="h-6 w-6 text-primary-foreground" aria-hidden="true" />
+                  <Link
+                    href={service.name === 'Construction Management'
+                      ? '/services/construction-management'
+                      : service.name === 'Industrial Solutions'
+                      ? '/services/industry-solutions'
+                      : '/services/maintenance-services'}
+                    className="block h-full"
+                  >
+                    <div className="flex flex-col bg-black/50 p-8 rounded-2xl border border-gray-800 h-full cursor-pointer transition-colors group-hover:border-primary">
+                      <dt className="text-base font-semibold leading-7 text-white">
+                        <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
+                          <service.icon className="h-6 w-6 text-primary-foreground" aria-hidden="true" />
+                        </div>
+                        {service.name}
+                      </dt>
+                      <dd className="mt-1 flex flex-auto flex-col text-base leading-7 text-gray-300">
+                        <p className="flex-auto">{service.description}</p>
+                        <p className="mt-6">
+                          <span className="text-sm font-semibold leading-6 text-primary group-hover:text-primary/80">
+                            Learn more <span aria-hidden="true">→</span>
+                          </span>
+                        </p>
+                      </dd>
                     </div>
-                    {service.name}
-                  </dt>
-                  <dd className="mt-1 flex flex-auto flex-col text-base leading-7 text-gray-300">
-                    <p className="flex-auto">{service.description}</p>
-                    <p className="mt-6">
-                      <Link href="/services" className="text-sm font-semibold leading-6 text-primary">
-                        Learn more <span aria-hidden="true">→</span>
-                      </Link>
-                    </p>
-                  </dd>
+                  </Link>
                 </motion.div>
               ))}
             </dl>

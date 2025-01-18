@@ -1,95 +1,39 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import PageHeader from '@/components/ui/PageHeader';
+import ImageCarousel from '@/components/ui/ImageCarousel';
 
-const categories = ['All', 'Commercial', 'Industrial', 'Manufacturing', 'Renovation'];
+const categories = ['All', 'Commercial'];
 
 const projects = [
   {
     id: 1,
-    name: 'Modern Office Complex',
+    name: 'Eye Institute of Tulsa',
     category: 'Commercial',
-    location: 'Chicago, IL',
-    year: '2023',
-    description: 'State-of-the-art office complex featuring sustainable design and smart building technology.',
-    image: '/project-1.jpg',
+    location: 'Bixby, OK',
+    year: '2024',
+    description: 'State-of-the-art eye clinic featuring modern medical facilities, comfortable patient areas, and advanced diagnostic equipment.',
+    images: [
+      '/Doc-exterior.png',
+      '/Doc-Lobby 1.jpg',
+      '/Doc-Lobby 2.jpg',
+      '/Doc-Lobby 3.jpg',
+      '/Doc-Lobby 4.jpg',
+      '/Doc-Examination Room (1).jpg',
+      '/Doc-Examination Room-2.jpg',
+      '/Doc-Testing Room.jpg',
+      '/Doc-Meeting Room.jpg',
+      '/Doc-Meeting Room 2.jpg',
+      '/Doc-Employer Room.jpg',
+      '/Doc-Lounge2.jpg',
+      '/Doc.Lounge.jpg'
+    ],
     stats: {
-      size: '125,000 sq ft',
-      duration: '18 months',
-      value: '$45M',
-    },
-  },
-  {
-    id: 2,
-    name: 'Manufacturing Facility',
-    category: 'Manufacturing',
-    location: 'Detroit, MI',
-    year: '2023',
-    description: 'Advanced manufacturing facility with automated production lines and energy-efficient systems.',
-    image: '/project-2.jpg',
-    stats: {
-      size: '200,000 sq ft',
-      duration: '24 months',
-      value: '$65M',
-    },
-  },
-  {
-    id: 3,
-    name: 'Distribution Center',
-    category: 'Industrial',
-    location: 'Indianapolis, IN',
-    year: '2022',
-    description: 'Modern distribution center with state-of-the-art logistics and inventory management systems.',
-    image: '/project-3.jpg',
-    stats: {
-      size: '350,000 sq ft',
-      duration: '20 months',
-      value: '$78M',
-    },
-  },
-  {
-    id: 4,
-    name: 'Historic Building Renovation',
-    category: 'Renovation',
-    location: 'Milwaukee, WI',
-    year: '2022',
-    description: 'Careful restoration and modernization of a historic downtown building.',
-    image: '/project-4.jpg',
-    stats: {
-      size: '75,000 sq ft',
-      duration: '15 months',
-      value: '$28M',
-    },
-  },
-  {
-    id: 5,
-    name: 'Tech Campus',
-    category: 'Commercial',
-    location: 'Minneapolis, MN',
-    year: '2021',
-    description: 'Multi-building technology campus with collaborative spaces and advanced infrastructure.',
-    image: '/project-5.jpg',
-    stats: {
-      size: '280,000 sq ft',
-      duration: '30 months',
-      value: '$95M',
-    },
-  },
-  {
-    id: 6,
-    name: 'Automotive Plant',
-    category: 'Manufacturing',
-    location: 'Cleveland, OH',
-    year: '2021',
-    description: 'State-of-the-art automotive manufacturing facility with robotic assembly lines.',
-    image: '/project-6.jpg',
-    stats: {
-      size: '400,000 sq ft',
-      duration: '36 months',
-      value: '$120M',
+      size: '15,000 sq ft',
+      duration: '12 months',
+      value: '$8.5M',
     },
   },
 ];
@@ -143,14 +87,7 @@ export default function Projects() {
                 className="bg-gray-900 rounded-2xl overflow-hidden"
               >
                 <div className="aspect-[4/3] relative">
-                  <Image
-                    src={project.image}
-                    alt={project.name}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <ImageCarousel images={project.images} alt={project.name} />
                   <div className="absolute bottom-4 left-4">
                     <span className="inline-flex items-center rounded-full bg-blue-500/10 px-3 py-1 text-sm font-medium text-blue-400 ring-1 ring-inset ring-blue-500/20">
                       {project.category}

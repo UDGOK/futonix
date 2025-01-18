@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark h-full scroll-smooth">
-      <body className={`${inter.className} h-full`}>
+      <body id="root" className={`${inter.className} h-full`}>
         <Header1 />
         <main className="min-h-screen pt-20">
           {children}

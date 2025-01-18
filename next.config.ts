@@ -15,6 +15,7 @@ const nextConfig = {
     SMTP_PASSWORD: process.env.SMTP_PASSWORD,
     SMTP_TO_EMAIL: process.env.SMTP_TO_EMAIL,
   },
+  transpilePackages: ['react-image-lightbox'],
 };
 
 export default nextConfig;
