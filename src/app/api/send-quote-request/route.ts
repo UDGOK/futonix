@@ -21,15 +21,26 @@ export async function POST(request: Request) {
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT),
-      secure: false,
+      secure: false, // true for 465, false for other ports
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASSWORD,
       },
+      tls: {
+        // Do not fail on invalid certs
+        rejectUnauthorized: false
+      },
+      logger: true,
+      debug: true
     });
 
-    // Verify SMTP connection
-    await transporter.verify();
+    try {
+      // Verify SMTP connection
+      await transporter.verify();
+    } catch (verifyError) {
+      console.error('SMTP Verification Error:', verifyError);
+      throw new Error(`Failed to verify SMTP connection: ${verifyError instanceof Error ? verifyError.message : 'Unknown error'}`);
+    }
 
     // Determine if this is a quote request or contact form submission
     const isQuoteRequest = 'projectType' in data;
@@ -153,12 +164,25 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error sending email:', {
+    // Log detailed error information
+    const errorDetails = {
       message: error instanceof Error ? error.message : 'Unknown error',
       stack: error instanceof Error ? error.stack : undefined,
-    });
+      name: error instanceof Error ? error.name : undefined,
+      code: (error as NodeJS.ErrnoException)?.code,
+      syscall: (error as NodeJS.ErrnoException)?.syscall,
+      errno: (error as NodeJS.ErrnoException)?.errno,
+    };
+    
+    console.error('Error sending email:', errorDetails);
+    
+    // Return a more descriptive error message
     return NextResponse.json(
-      { error: 'Failed to send email' },
+      {
+        error: 'Failed to send email',
+        details: error instanceof Error ? error.message : 'Unknown error',
+        code: (error as NodeJS.ErrnoException)?.code
+      },
       { status: 500 }
     );
   }

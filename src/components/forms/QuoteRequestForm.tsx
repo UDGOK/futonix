@@ -74,6 +74,7 @@ export default function QuoteRequestForm() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,7 +89,11 @@ export default function QuoteRequestForm() {
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) throw new Error('Failed to send email');
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.details || data.error || 'Failed to send email');
+      }
       
       setSubmitStatus('success');
       setFormData({
@@ -106,8 +111,11 @@ export default function QuoteRequestForm() {
 
       // Reset success message after 3 seconds
       setTimeout(() => setSubmitStatus('idle'), 3000);
-    } catch {
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error occurred';
+      console.error('Form submission error:', message);
       setSubmitStatus('error');
+      setErrorMessage(message);
       setTimeout(() => setSubmitStatus('idle'), 3000);
     } finally {
       setIsSubmitting(false);
@@ -381,7 +389,7 @@ export default function QuoteRequestForm() {
           className="rounded-md bg-red-500/10 p-4"
         >
           <p className="text-sm text-red-400">
-            There was an error sending your request. Please try again or contact us directly.
+            {errorMessage || 'There was an error sending your request. Please try again or contact us directly.'}
           </p>
         </motion.div>
       )}
