@@ -5,6 +5,15 @@ export async function POST(request: Request) {
   try {
     const data = await request.json();
     
+    // Debug environment variables
+    console.log('Environment Variables:', {
+      SMTP_HOST: process.env.SMTP_HOST || 'missing',
+      SMTP_PORT: process.env.SMTP_PORT || 'missing',
+      SMTP_USER: process.env.SMTP_USER || 'missing',
+      SMTP_PASSWORD: process.env.SMTP_PASSWORD ? 'present' : 'missing',
+      SMTP_TO_EMAIL: process.env.SMTP_TO_EMAIL || 'missing',
+    });
+
     // Validate environment variables with detailed error messages
     const missingVars = [];
     if (!process.env.SMTP_HOST) missingVars.push('SMTP_HOST');
@@ -14,6 +23,7 @@ export async function POST(request: Request) {
     if (!process.env.SMTP_TO_EMAIL) missingVars.push('SMTP_TO_EMAIL');
     
     if (missingVars.length > 0) {
+      console.error('Missing environment variables:', missingVars);
       throw new Error(`Missing required SMTP configuration: ${missingVars.join(', ')}`);
     }
 
