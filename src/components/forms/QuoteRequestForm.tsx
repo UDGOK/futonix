@@ -85,11 +85,7 @@ export default function QuoteRequestForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          ...formData,
-          to: 'yasir@futonix.com',
-          subject: `Quote Request from ${formData.name} - ${formData.company}`,
-        }),
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) throw new Error('Failed to send email');

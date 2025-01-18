@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import PageHeader from '@/components/ui/PageHeader';
+import { AccordionDemo } from '@/components/demo/accordion-demo';
 import {
   BuildingOffice2Icon,
   TruckIcon,
@@ -186,6 +187,23 @@ export default function Services() {
                 </motion.div>
               ))}
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* FAQ Section */}
+      <div className="py-24 sm:py-32 bg-blue-900/20">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+              Frequently Asked Questions
+            </h2>
+            <p className="mt-6 text-lg leading-8 text-gray-300">
+              Get answers to common questions about our construction services and processes
+            </p>
+          </div>
+          <div className="mt-16 max-w-3xl mx-auto">
+            <AccordionDemo />
           </div>
         </div>
       </div>

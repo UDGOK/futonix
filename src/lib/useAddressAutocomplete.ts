@@ -12,45 +12,42 @@ export function useAddressAutocomplete(debounceMs: number = 300) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const debouncedFetch = useCallback(
-    (input: string) => {
-      const fetchSuggestions = async (input: string) => {
-        if (!input.trim()) {
-          setSuggestions([]);
-          return;
-        }
+  const fetchSuggestions = useCallback(async (input: string) => {
+    if (!input.trim()) {
+      setSuggestions([]);
+      return;
+    }
 
-        try {
-          setIsLoading(true);
-          setError(null);
-          console.log('Fetching suggestions for:', input);
-          const response = await fetch(`/api/geocode?q=${encodeURIComponent(input)}&countrycodes=us`);
+    try {
+      setIsLoading(true);
+      setError(null);
+      const response = await fetch(`/api/geocode?q=${encodeURIComponent(input)}&countrycodes=us`);
 
-          if (!response.ok) {
-            throw new Error('Failed to fetch address suggestions');
-          }
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.message || 'Failed to fetch address suggestions');
+      }
 
-          const data = await response.json();
-          console.log('Received suggestions:', data);
-          if (Array.isArray(data)) {
-            setSuggestions(data);
-          } else {
-            console.error('Unexpected response format:', data);
-            setSuggestions([]);
-          }
-        } catch (err) {
-          setError(err instanceof Error ? err.message : 'Failed to fetch suggestions');
-          setSuggestions([]);
-        } finally {
-          setIsLoading(false);
-        }
-      };
+      const data = await response.json();
+      if (Array.isArray(data)) {
+        setSuggestions(data);
+      } else {
+        throw new Error('Invalid response format from geocoding service');
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch suggestions');
+      setSuggestions([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
-      const debounced = debounce(fetchSuggestions, debounceMs);
-      debounced(input);
-    },
-    [debounceMs, setSuggestions, setIsLoading, setError]
-  );
+  const debouncedFetch = useCallback((input: string) => {
+    const debouncedFn = debounce((value: string) => {
+      fetchSuggestions(value);
+    }, debounceMs);
+    debouncedFn(input);
+  }, [debounceMs, fetchSuggestions]);
 
   useEffect(() => {
     debouncedFetch(query);
