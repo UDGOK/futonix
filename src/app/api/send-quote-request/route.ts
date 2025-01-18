@@ -5,11 +5,16 @@ export async function POST(request: Request) {
   try {
     const data = await request.json();
     
-    // Validate environment variables
-    if (!process.env.SMTP_HOST || !process.env.SMTP_PORT ||
-        !process.env.SMTP_USER || !process.env.SMTP_PASSWORD ||
-        !process.env.SMTP_TO_EMAIL) {
-      throw new Error('Missing required SMTP configuration');
+    // Validate environment variables with detailed error messages
+    const missingVars = [];
+    if (!process.env.SMTP_HOST) missingVars.push('SMTP_HOST');
+    if (!process.env.SMTP_PORT) missingVars.push('SMTP_PORT');
+    if (!process.env.SMTP_USER) missingVars.push('SMTP_USER');
+    if (!process.env.SMTP_PASSWORD) missingVars.push('SMTP_PASSWORD');
+    if (!process.env.SMTP_TO_EMAIL) missingVars.push('SMTP_TO_EMAIL');
+    
+    if (missingVars.length > 0) {
+      throw new Error(`Missing required SMTP configuration: ${missingVars.join(', ')}`);
     }
 
     // Create a transporter using SMTP
