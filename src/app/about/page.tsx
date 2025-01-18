@@ -73,10 +73,11 @@ export default function About() {
               <div>
                 <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Our Story</h2>
                 <p className="mt-6 text-lg leading-8 text-gray-300">
-                  For over 25 years, Futonix has been at the forefront of the construction industry, 
-                  delivering exceptional results and building lasting relationships with our clients. 
-                  Our commitment to quality, innovation, and customer satisfaction has made us a trusted 
-                  partner in commercial and industrial construction.
+                  Futonix Design & Build is a leading construction and technology integration firm serving
+                  northeastern Oklahoma since 1998. Based in Tulsa, we combine innovative design, quality
+                  construction, and advanced technology solutions to create exceptional facilities. Our
+                  commitment to excellence, sustainability, and client satisfaction has established us as
+                  a trusted partner for commercial and industrial projects across the region.
                 </p>
               </div>
               <div>
@@ -121,7 +122,48 @@ export default function About() {
           </dl>
         </div>
       </div>
+{/* Leadership Team Section */}
+<div className="py-24 sm:py-32">
+  <div className="mx-auto max-w-7xl px-6 lg:px-8">
+    <div className="mx-auto max-w-2xl lg:mx-0">
+      <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Our Leadership</h2>
+      <p className="mt-6 text-lg leading-8 text-gray-300">
+        Our experienced team of construction and technology professionals is led by industry experts committed to delivering excellence.
+      </p>
+    </div>
+    <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-2">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="bg-white/5 p-8 rounded-2xl"
+      >
+        <h3 className="text-xl font-semibold text-white">Yasir Jahangir</h3>
+        <p className="mt-2 text-blue-400">Co-Founder & CEO</p>
+        <p className="mt-4 text-gray-300">
+          With extensive experience in construction management and technology integration, Yasir leads our strategic vision
+          and ensures the highest standards of quality across all projects.
+        </p>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.2 }}
+        className="bg-white/5 p-8 rounded-2xl"
+      >
+        <h3 className="text-xl font-semibold text-white">Umair Ahmed</h3>
+        <p className="mt-2 text-blue-400">Co-Founder & CTO</p>
+        <p className="mt-4 text-gray-300">
+          Umair brings deep expertise in systems integration and project delivery, leading our technology initiatives
+          and ensuring innovative solutions for every project.
+        </p>
+      </motion.div>
+    </div>
+  </div>
+</div>
 
+{/* FAQ Section */}
       {/* FAQ Section */}
       <div className="py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">

@@ -55,22 +55,22 @@ const navigationItems = [
         items: [
             {
                 title: "Construction Management",
-                href: "/services#construction",
+                href: "/services/construction-management",
                 description: "Expert oversight and execution of construction projects.",
             },
             {
-                title: "Industrial Solutions",
-                href: "/services#industrial",
+                title: "Industry Solutions",
+                href: "/services/industry-solutions",
                 description: "Specialized solutions for manufacturing and industrial facilities.",
             },
             {
                 title: "Maintenance Services",
-                href: "/services#maintenance",
+                href: "/services/maintenance-services",
                 description: "Comprehensive maintenance and repair services.",
             },
             {
                 title: "Project Planning",
-                href: "/services#planning",
+                href: "/project-planning",
                 description: "Strategic planning and project development.",
             },
         ],

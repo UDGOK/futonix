@@ -4,24 +4,35 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Dialog } from '@headlessui/react';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, XMarkIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const navigation = [
   { name: 'Home', href: '/' },
   { name: 'About', href: '/about' },
-  { name: 'Services', href: '/services' },
+  {
+    name: 'Services',
+    href: '/services',
+    dropdown: [
+      { name: 'Construction Management', href: '/services/construction-management' },
+      { name: 'Industry Solutions', href: '/services/industry-solutions' },
+      { name: 'Maintenance Services', href: '/services/maintenance-services' },
+      { name: 'Project Planning', href: '/project-planning' },
+    ],
+  },
   { name: 'Projects', href: '/projects' },
   { name: 'Contact', href: '/contact' },
 ];
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const pathname = usePathname();
 
   // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false);
+    setActiveDropdown(null);
   }, [pathname]);
 
   return (
@@ -50,16 +61,55 @@ export default function Navbar() {
         </div>
         <div className="hidden md:flex md:gap-x-8 md:items-center">
           {navigation.map((item) => (
-            <motion.div key={item.name} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link
-                href={item.href}
-                className={`text-sm font-semibold leading-6 transition-colors ${
-                  pathname === item.href ? 'text-primary' : 'text-white hover:text-primary'
-                }`}
+            <div key={item.name} className="relative">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center gap-1"
+                onMouseEnter={() => item.dropdown && setActiveDropdown(item.name)}
+                onMouseLeave={() => setActiveDropdown(null)}
               >
-                {item.name}
-              </Link>
-            </motion.div>
+                <Link
+                  href={item.href}
+                  className={`text-sm font-semibold leading-6 transition-colors ${
+                    pathname === item.href ? 'text-primary' : 'text-white hover:text-primary'
+                  }`}
+                >
+                  {item.name}
+                </Link>
+                {item.dropdown && (
+                  <ChevronDownIcon
+                    className={`h-4 w-4 transition-transform ${
+                      activeDropdown === item.name ? 'rotate-180 text-primary' : 'text-white'
+                    }`}
+                  />
+                )}
+                {item.dropdown && activeDropdown === item.name && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="absolute top-full left-0 mt-2 w-64 rounded-md bg-black/90 backdrop-blur-sm shadow-lg ring-1 ring-primary/20 focus:outline-none"
+                  >
+                    <div className="py-1">
+                      {item.dropdown.map((dropdownItem) => (
+                        <Link
+                          key={dropdownItem.name}
+                          href={dropdownItem.href}
+                          className={`block px-4 py-2 text-sm ${
+                            pathname === dropdownItem.href
+                              ? 'text-primary bg-primary/10'
+                              : 'text-white hover:bg-primary/5'
+                          }`}
+                        >
+                          {dropdownItem.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </motion.div>
+            </div>
           ))}
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Link
@@ -109,22 +159,59 @@ export default function Navbar() {
                 <div className="-my-6 divide-y divide-gray-500/10">
                   <div className="space-y-2 py-6">
                     {navigation.map((item) => (
-                      <motion.div
-                        key={item.name}
-                        whileHover={{ x: 10 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <Link
-                          href={item.href}
-                          className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 ${
-                            pathname === item.href
-                              ? 'text-primary bg-primary/10'
-                              : 'text-white hover:bg-primary/5'
-                          }`}
+                      <div key={item.name}>
+                        <motion.div
+                          whileHover={{ x: 10 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="flex items-center justify-between"
+                          onClick={() => item.dropdown && setActiveDropdown(activeDropdown === item.name ? null : item.name)}
                         >
-                          {item.name}
-                        </Link>
-                      </motion.div>
+                          <Link
+                            href={item.href}
+                            className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 ${
+                              pathname === item.href
+                                ? 'text-primary bg-primary/10'
+                                : 'text-white hover:bg-primary/5'
+                            }`}
+                          >
+                            {item.name}
+                          </Link>
+                          {item.dropdown && (
+                            <ChevronDownIcon
+                              className={`h-5 w-5 text-white transition-transform ${
+                                activeDropdown === item.name ? 'rotate-180' : ''
+                              }`}
+                            />
+                          )}
+                        </motion.div>
+                        {item.dropdown && activeDropdown === item.name && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="ml-4 mt-2 space-y-2"
+                          >
+                            {item.dropdown.map((dropdownItem) => (
+                              <motion.div
+                                key={dropdownItem.name}
+                                whileHover={{ x: 10 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <Link
+                                  href={dropdownItem.href}
+                                  className={`block rounded-lg px-3 py-2 text-base font-semibold leading-7 ${
+                                    pathname === dropdownItem.href
+                                      ? 'text-primary bg-primary/10'
+                                      : 'text-white hover:bg-primary/5'
+                                  }`}
+                                >
+                                  {dropdownItem.name}
+                                </Link>
+                              </motion.div>
+                            ))}
+                          </motion.div>
+                        )}
+                      </div>
                     ))}
                     <motion.div
                       whileHover={{ x: 10 }}

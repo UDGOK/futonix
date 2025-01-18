@@ -6,67 +6,82 @@ import PageHeader from '@/components/ui/PageHeader';
 import { AccordionDemo } from '@/components/demo/accordion-demo';
 import {
   BuildingOffice2Icon,
-  TruckIcon,
   WrenchScrewdriverIcon,
   ChartBarIcon,
   ClipboardDocumentCheckIcon,
   CubeIcon,
+  CpuChipIcon,
 } from '@heroicons/react/24/outline';
 
 const services = [
   {
     name: 'Construction Management',
-    description: 'Comprehensive oversight of construction projects from planning to completion.',
+    description: 'Comprehensive construction management services across Greater Tulsa, including Jenks, Broken Arrow, Bixby, Owasso, Tahlequah, Muskogee and Enid. Our integrated approach combines cutting-edge technology with decades of local expertise.',
     icon: BuildingOffice2Icon,
     details: [
-      'Project planning and scheduling',
-      'Cost estimation and budgeting',
-      'Quality control and assurance',
-      'Site supervision and management',
-      'Vendor and contractor coordination',
+      'Pre-construction planning and budgeting',
+      'Project scheduling and coordination',
+      'Quality control and safety management',
+      'Cost tracking and reporting',
+      'Risk mitigation',
+      'Sustainable building practices',
+      'Advanced construction management software integration',
+      'Cost control strategies (3-6% projected increase in 2024)',
     ],
   },
   {
-    name: 'Industrial Solutions',
-    description: 'Specialized construction solutions for industrial and manufacturing facilities.',
-    icon: TruckIcon,
+    name: 'Industry Solutions',
+    description: 'Cutting-edge technology integration for enhanced security, efficiency, and connectivity in commercial and industrial facilities.',
+    icon: CpuChipIcon,
     details: [
-      'Manufacturing facility construction',
-      'Warehouse development',
-      'Industrial retrofitting',
-      'Equipment installation',
-      'Facility expansion projects',
+      'Access Control Systems:',
+      '• Keycard and biometric systems',
+      '• Remote management capabilities',
+      '• Integration with building automation',
+      '• Visitor management solutions',
+      'Video Surveillance:',
+      '• HD camera systems with analytics',
+      '• Remote monitoring capabilities',
+      '• Cloud storage solutions',
+      'Custom Technology Solutions:',
+      '• Building automation systems',
+      '• Energy management integration',
+      '• Network infrastructure',
+      '• Smart building technologies',
     ],
   },
   {
     name: 'Maintenance Services',
-    description: 'Ongoing maintenance and repair services for commercial properties.',
+    description: 'Keep your facility operating at peak performance with comprehensive maintenance solutions for commercial and industrial properties throughout northeastern Oklahoma.',
     icon: WrenchScrewdriverIcon,
     details: [
       'Preventive maintenance programs',
-      'Emergency repair services',
-      'Facility upgrades',
-      'System optimization',
-      'Regular inspections',
+      'Emergency repairs with 24/7 response',
+      'Building systems optimization',
+      'Energy efficiency upgrades',
+      'Facility assessments',
+      'Digital maintenance tracking',
+      'Advanced diagnostic tools',
+      'Equipment life extension',
     ],
   },
 ];
 
 const advantages = [
   {
-    name: 'Expert Team',
-    description: 'Highly skilled professionals with decades of combined experience.',
+    name: 'Local Expertise',
+    description: 'Decades of experience serving Greater Tulsa and surrounding communities.',
     icon: ChartBarIcon,
   },
   {
-    name: 'Quality Assurance',
-    description: 'Rigorous quality control processes ensuring excellence in every project.',
-    icon: ClipboardDocumentCheckIcon,
+    name: 'Technology-Driven',
+    description: 'Advanced construction management software and analytics for optimal project efficiency.',
+    icon: CubeIcon,
   },
   {
-    name: 'Innovation',
-    description: 'Utilizing cutting-edge technology and construction methods.',
-    icon: CubeIcon,
+    name: 'Cost Control',
+    description: 'Proven management systems to control expenses while maintaining quality standards.',
+    icon: ClipboardDocumentCheckIcon,
   },
 ];
 
@@ -97,7 +112,7 @@ export default function Services() {
                     <h2 className="text-3xl font-bold tracking-tight text-white">{service.name}</h2>
                   </div>
                   <p className="mt-6 text-lg leading-8 text-gray-300">{service.description}</p>
-                  <ul className="mt-8 space-y-3">
+                  <ul className="mt-8 space-y-4">
                     {service.details.map((detail, idx) => (
                       <motion.li
                         key={idx}
@@ -105,7 +120,7 @@ export default function Services() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 * idx }}
-                        className="flex items-center gap-x-3 text-gray-300"
+                        className="flex items-center gap-x-3 text-gray-300 text-lg leading-relaxed"
                       >
                         <div className="h-2 w-2 rounded-full bg-blue-500" />
                         {detail}
@@ -113,8 +128,8 @@ export default function Services() {
                     ))}
                   </ul>
                 </div>
-                <div className="relative lg:mt-0 mt-8">
-                  <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-gray-900">
+                <div className="lg:mt-0 mt-8">
+                  <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-gray-900 relative">
                     <Image
                       src={`/service-${index + 1}.jpg`}
                       alt={service.name}
