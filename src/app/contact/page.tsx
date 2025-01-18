@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import PageHeader from '@/components/ui/PageHeader';
 import ContactForm from '@/components/forms/ContactForm';
 import { Boxes } from '@/components/ui/background-boxes';
@@ -38,11 +37,7 @@ export default function Contact() {
             {/* Contact Form Section */}
             <div className="relative px-6 pb-20 pt-24 sm:pt-32 lg:static lg:px-8 lg:py-24">
               <div className="mx-auto max-w-xl lg:mx-0 lg:max-w-lg">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                >
+                <div>
                   <h2 className="text-3xl font-bold tracking-tight text-white">Let&apos;s Connect</h2>
                   <p className="mt-6 text-lg leading-8 text-gray-300">
                     Ready to start your next project? Fill out the form below and one of our experts will get back to you within 24 hours.
@@ -50,30 +45,23 @@ export default function Contact() {
                   <div className="mt-10">
                     <ContactForm />
                   </div>
-                </motion.div>
+                </div>
               </div>
             </div>
 
             {/* Office Locations Section */}
             <div className="px-6 pb-24 pt-24 sm:pb-32 lg:px-8 lg:py-24">
               <div className="mx-auto max-w-xl lg:mx-0">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                >
+                <div>
                   <h2 className="text-3xl font-bold tracking-tight text-white">Our Offices</h2>
                   <p className="mt-6 text-lg leading-8 text-gray-300">
                     Visit one of our offices or reach out to us directly.
                   </p>
                   <div className="mt-10 space-y-8">
-                    {offices.map((office, index) => (
-                      <motion.div
+                    {offices.map((office) => (
+                      <div
                         key={office.city}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
-                        className="border border-gray-800 rounded-lg p-6 bg-slate-900/50 backdrop-blur-sm"
+                        className="border border-gray-800 rounded-lg p-6 bg-slate-900/50"
                       >
                         <h3 className="text-xl font-semibold text-white">{office.city}</h3>
                         <div className="mt-4 space-y-4">
@@ -97,24 +85,19 @@ export default function Contact() {
                             </div>
                           </div>
                         </div>
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
-                </motion.div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         {/* CTA Section */}
-        <div className="bg-slate-900/50 backdrop-blur-sm">
+        <div className="bg-slate-900/50">
           <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="mx-auto max-w-2xl text-center"
-            >
+            <div className="mx-auto max-w-2xl text-center">
               <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
                 Ready to Transform Your Vision into Reality?
               </h2>
@@ -135,7 +118,7 @@ export default function Contact() {
                   Email Us <span aria-hidden="true">→</span>
                 </a>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>

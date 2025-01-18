@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRightIcon, BuildingOffice2Icon, TruckIcon, WrenchScrewdriverIcon } from '@heroicons/react/24/outline';
 import { AuroraBackground } from '@/components/ui/aurora-background';
+import { HighlighterDemo } from '@/components/demo/highlighter-demo';
 const services = [
   {
     name: 'Construction Management',
@@ -135,6 +136,9 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* Highlighter Demo Section */}
+      <HighlighterDemo />
 
       {/* CTA Section */}
       <div className="relative isolate overflow-hidden bg-black/20">
