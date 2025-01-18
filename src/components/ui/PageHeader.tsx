@@ -25,14 +25,17 @@ export default function PageHeader({ title, subtitle, backgroundImage = '/constr
       </div>
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          initial={{ opacity: 0, y: 20, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{
+            duration: 0.8,
+            ease: "easeOut"
+          }}
           className="mx-auto max-w-2xl lg:mx-0"
         >
-          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">{title}</h1>
+          <h1 className="text-4xl font-bold tracking-tight text-white drop-shadow-[0_0_0.3rem_#ffffff70] sm:text-6xl">{title}</h1>
           {subtitle && (
-            <p className="mt-6 text-lg leading-8 text-gray-300">
+            <p className="mt-6 text-lg leading-8 text-gray-100">
               {subtitle}
             </p>
           )}

@@ -25,12 +25,12 @@ export default function Navbar() {
   }, [pathname]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-black/90 backdrop-blur-sm">
+    <header className="fixed inset-x-0 top-0 z-50 bg-black/80 backdrop-blur-sm">
       <nav className="flex items-center justify-between p-6 lg:px-8 max-w-7xl mx-auto" aria-label="Global">
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
             <motion.span
-              className="text-2xl font-bold text-white hover:text-blue-400 transition-colors"
+              className="text-2xl font-bold text-white hover:text-primary transition-colors"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -54,7 +54,7 @@ export default function Navbar() {
               <Link
                 href={item.href}
                 className={`text-sm font-semibold leading-6 transition-colors ${
-                  pathname === item.href ? 'text-blue-400' : 'text-white hover:text-blue-400'
+                  pathname === item.href ? 'text-primary' : 'text-white hover:text-primary'
                 }`}
               >
                 {item.name}
@@ -90,7 +90,7 @@ export default function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-black px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
+              className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-black/90 backdrop-blur-sm px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-primary/20"
             >
               <div className="flex items-center justify-between">
                 <Link href="/" className="-m-1.5 p-1.5">
@@ -118,8 +118,8 @@ export default function Navbar() {
                           href={item.href}
                           className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 ${
                             pathname === item.href
-                              ? 'text-blue-400 bg-blue-950/50'
-                              : 'text-white hover:bg-blue-900/20'
+                              ? 'text-primary bg-primary/10'
+                              : 'text-white hover:bg-primary/5'
                           }`}
                         >
                           {item.name}

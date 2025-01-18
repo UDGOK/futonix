@@ -1,9 +1,64 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useAddressAutocomplete } from '@/lib/useAddressAutocomplete';
 
 export default function QuoteRequestForm() {
+  const {
+    setQuery,
+    suggestions,
+    isLoading,
+    setSuggestions
+  } = useAddressAutocomplete(300);
+  
+  const locationRef = useRef<HTMLDivElement>(null);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (locationRef.current && !locationRef.current.contains(event.target as Node)) {
+        // Only clear suggestions if clicking outside the entire input + dropdown area
+        const isClickOnInput = (event.target as HTMLElement)?.id === 'location';
+        if (!isClickOnInput) {
+          setSuggestions([]);
+          setSelectedIndex(-1);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [setSuggestions]);
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (suggestions.length === 0) return;
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        setSelectedIndex(prev => (prev < suggestions.length - 1 ? prev + 1 : prev));
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        setSelectedIndex(prev => (prev > 0 ? prev - 1 : prev));
+        break;
+      case 'Enter':
+        e.preventDefault();
+        if (selectedIndex >= 0) {
+          const selected = suggestions[selectedIndex];
+          setFormData(prev => ({ ...prev, location: selected.display_name }));
+          setSuggestions([]);
+          setSelectedIndex(-1);
+        }
+        break;
+      case 'Escape':
+        setSuggestions([]);
+        setSelectedIndex(-1);
+        break;
+    }
+  };
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -85,7 +140,7 @@ export default function QuoteRequestForm() {
               required
               value={formData.name}
               onChange={handleChange}
-              className="mt-2 block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+              className="mt-2 block w-full rounded-md border-0 bg-black/80 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-primary/20 focus:ring-2 focus:ring-inset focus:ring-primary hover:ring-primary/50 sm:text-sm sm:leading-6"
             />
           </div>
           <div>
@@ -99,7 +154,7 @@ export default function QuoteRequestForm() {
               required
               value={formData.email}
               onChange={handleChange}
-              className="mt-2 block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+              className="mt-2 block w-full rounded-md border-0 bg-black/80 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-primary/20 focus:ring-2 focus:ring-inset focus:ring-primary hover:ring-primary/50 sm:text-sm sm:leading-6"
             />
           </div>
           <div>
@@ -113,7 +168,7 @@ export default function QuoteRequestForm() {
               required
               value={formData.phone}
               onChange={handleChange}
-              className="mt-2 block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+              className="mt-2 block w-full rounded-md border-0 bg-black/80 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-primary/20 focus:ring-2 focus:ring-inset focus:ring-primary hover:ring-primary/50 sm:text-sm sm:leading-6"
             />
           </div>
           <div>
@@ -127,7 +182,7 @@ export default function QuoteRequestForm() {
               required
               value={formData.company}
               onChange={handleChange}
-              className="mt-2 block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+              className="mt-2 block w-full rounded-md border-0 bg-black/80 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-primary/20 focus:ring-2 focus:ring-inset focus:ring-primary hover:ring-primary/50 sm:text-sm sm:leading-6"
             />
           </div>
         </div>
@@ -147,7 +202,7 @@ export default function QuoteRequestForm() {
               required
               value={formData.projectType}
               onChange={handleChange}
-              className="mt-2 block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+              className="mt-2 block w-full rounded-md border-0 bg-black/80 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-primary/20 focus:ring-2 focus:ring-inset focus:ring-primary hover:ring-primary/50 sm:text-sm sm:leading-6 [&>option]:bg-black [&>option]:text-white"
             >
               <option value="">Select Project Type</option>
               <option value="Commercial Construction">Commercial Construction</option>
@@ -168,7 +223,7 @@ export default function QuoteRequestForm() {
               required
               value={formData.projectSize}
               onChange={handleChange}
-              className="mt-2 block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+              className="mt-2 block w-full rounded-md border-0 bg-black/80 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-primary/20 focus:ring-2 focus:ring-inset focus:ring-primary hover:ring-primary/50 sm:text-sm sm:leading-6"
             />
           </div>
           <div>
@@ -181,7 +236,7 @@ export default function QuoteRequestForm() {
               required
               value={formData.timeline}
               onChange={handleChange}
-              className="mt-2 block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+              className="mt-2 block w-full rounded-md border-0 bg-black/80 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-primary/20 focus:ring-2 focus:ring-inset focus:ring-primary hover:ring-primary/50 sm:text-sm sm:leading-6 [&>option]:bg-black [&>option]:text-white"
             >
               <option value="">Select Timeline</option>
               <option value="1-3 months">1-3 months</option>
@@ -199,7 +254,7 @@ export default function QuoteRequestForm() {
               id="budget"
               value={formData.budget}
               onChange={handleChange}
-              className="mt-2 block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+              className="mt-2 block w-full rounded-md border-0 bg-black/80 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-primary/20 focus:ring-2 focus:ring-inset focus:ring-primary hover:ring-primary/50 sm:text-sm sm:leading-6 [&>option]:bg-black [&>option]:text-white"
             >
               <option value="">Select Budget Range</option>
               <option value="Under $100k">Under $100k</option>
@@ -209,19 +264,67 @@ export default function QuoteRequestForm() {
               <option value="$5M+">$5M+</option>
             </select>
           </div>
-          <div className="sm:col-span-2">
+          <div className="sm:col-span-2 relative" ref={locationRef}>
             <label htmlFor="location" className="block text-sm font-medium text-gray-300">
               Project Location *
             </label>
-            <input
-              type="text"
-              name="location"
-              id="location"
-              required
-              value={formData.location}
-              onChange={handleChange}
-              className="mt-2 block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
-            />
+            <div className="relative">
+              <input
+                type="text"
+                name="location"
+                id="location"
+                required
+                value={formData.location}
+                onChange={(e) => {
+                  handleChange(e);
+                  setQuery(e.target.value);
+                  setSelectedIndex(-1);
+                }}
+                onFocus={() => setQuery(formData.location)}
+                onKeyDown={handleKeyDown}
+                className="mt-2 block w-full rounded-md border-0 bg-black/80 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-primary/20 focus:ring-2 focus:ring-inset focus:ring-primary hover:ring-primary/50 sm:text-sm sm:leading-6"
+                aria-expanded={suggestions.length > 0}
+                aria-autocomplete="list"
+                aria-controls="location-suggestions"
+                role="combobox"
+              />
+              {isLoading && (
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                  <div className="animate-spin rounded-full h-4 w-4 border-2 border-primary border-t-transparent"></div>
+                </div>
+              )}
+            </div>
+            {suggestions.length > 0 && (
+              <div
+                id="location-suggestions"
+                className="absolute z-50 mt-1 w-full rounded-md bg-black/90 shadow-lg ring-1 ring-primary/20 backdrop-blur-sm"
+                role="listbox"
+              >
+                <ul className="py-1 max-h-60 overflow-auto">
+                  {suggestions.map((suggestion, index) => (
+                    <li
+                      key={suggestion.place_id}
+                      onClick={() => {
+                        setFormData(prev => ({ ...prev, location: suggestion.display_name }));
+                        setSuggestions([]);
+                        setSelectedIndex(-1);
+                        setQuery(''); // Clear the query to prevent further searches
+                      }}
+                      onMouseEnter={() => setSelectedIndex(index)}
+                      className={`px-3 py-2.5 text-sm text-white cursor-pointer transition-colors ${
+                        index === selectedIndex
+                          ? 'bg-primary/40 text-white'
+                          : 'hover:bg-primary/20'
+                      } border-b border-primary/10 last:border-b-0`}
+                      role="option"
+                      aria-selected={index === selectedIndex}
+                    >
+                      {suggestion.display_name}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -240,7 +343,7 @@ export default function QuoteRequestForm() {
             rows={4}
             value={formData.requirements}
             onChange={handleChange}
-            className="mt-2 block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+            className="mt-2 block w-full rounded-md border-0 bg-black/80 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-primary/20 focus:ring-2 focus:ring-inset focus:ring-primary hover:ring-primary/50 sm:text-sm sm:leading-6"
             placeholder="Please describe your project requirements, including any specific details or specifications..."
           />
         </div>
