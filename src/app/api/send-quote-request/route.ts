@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import sgMail from '@sendgrid/mail';
 
 export async function POST(request: Request) {
   try {
@@ -7,29 +7,21 @@ export async function POST(request: Request) {
     
     // Validate environment variables with detailed error messages
     const missingVars = [];
-    if (!process.env.SMTP_HOST) missingVars.push('SMTP_HOST');
-    if (!process.env.SMTP_PORT) missingVars.push('SMTP_PORT');
+    if (!process.env.SENDGRID_API_KEY) missingVars.push('SENDGRID_API_KEY');
     if (!process.env.SMTP_USER) missingVars.push('SMTP_USER');
-    if (!process.env.SMTP_PASSWORD) missingVars.push('SMTP_PASSWORD');
     if (!process.env.SMTP_TO_EMAIL) missingVars.push('SMTP_TO_EMAIL');
     
     if (missingVars.length > 0) {
-      throw new Error(`Missing required SMTP configuration: ${missingVars.join(', ')}`);
+      throw new Error(`Missing required email configuration: ${missingVars.join(', ')}`);
     }
 
-    // Create a transporter using SMTP
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT),
-      secure: false,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASSWORD,
-      },
-    });
+    // Initialize SendGrid
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
 
-    // Verify SMTP connection
-    await transporter.verify();
+    // Verify SendGrid API key
+    if (!process.env.SENDGRID_API_KEY) {
+      throw new Error('Missing SendGrid API key');
+    }
 
     // Determine if this is a quote request or contact form submission
     const isQuoteRequest = 'projectType' in data;
@@ -142,14 +134,43 @@ export async function POST(request: Request) {
       subject = `Contact Form Message from ${data.name} - ${data.company}`;
     }
 
-    // Send the email
-    await transporter.sendMail({
-      from: process.env.SMTP_USER,
+    // Send the email using SendGrid
+    const msg = {
       to: process.env.SMTP_TO_EMAIL,
+      from: process.env.SMTP_USER || 'noreply@futonix.com',
       subject: subject,
       text: emailContent,
       html: htmlContent,
-    });
+    };
+
+    try {
+      const [response] = await sgMail.send(msg);
+      console.log('SendGrid response:', {
+        statusCode: response.statusCode,
+        headers: response.headers,
+        body: response.body
+      });
+    } catch (err) {
+      const error = err as Error & {
+        code?: number;
+        response?: {
+          statusCode: number;
+          body: string;
+          headers: Record<string, string>;
+        };
+      };
+      
+      console.error('SendGrid error:', {
+        message: error.message,
+        code: error.code,
+        response: error.response ? {
+          statusCode: error.response.statusCode,
+          body: error.response.body,
+          headers: error.response.headers
+        } : null
+      });
+      throw error;
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {
