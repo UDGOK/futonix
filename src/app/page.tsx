@@ -43,18 +43,18 @@ export default function Home() {
           className="text-center lg:text-left max-w-2xl"
         >
           <div className="text-center lg:text-left max-w-full overflow-hidden">
-            <div className="text-3xl sm:text-4xl lg:text-6xl space-y-1 sm:space-y-2">
+            <div className="flex flex-col text-3xl sm:text-4xl lg:text-6xl gap-1 sm:gap-2">
               <SparklesText
                 text="Building Tomorrow's"
                 className="tracking-tight text-white inline-block"
                 colors={{ first: "#0ea5e9", second: "#0ea5e9" }}
-                sparklesCount={6}
+                sparklesCount={3}
               />
               <SparklesText
                 text="Infrastructure"
                 className="tracking-tight text-primary inline-block"
                 colors={{ first: "#ffffff", second: "#0ea5e9" }}
-                sparklesCount={6}
+                sparklesCount={3}
               />
             </div>
           </div>
